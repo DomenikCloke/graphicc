@@ -4,32 +4,50 @@ services:
     build: .
     container_name: myapp
     working_dir: /usr/src/app
-    ports:
-      - "3000:3000"
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PORT: ${DATABASE_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RAILS_ENV: development
+      NODE_ENV: development
+      CORS_ORIGIN: http://localhost:3001
     volumes:
-      - "./:/usr/src/app"
+      - ".:/usr/src/app"
+      - "/usr/src/app/node_modules"
+      - "/usr/src/app/tmp"
     depends_on:
       - db
-    command: bash -c "rails db:migrate && rails server -b 0.0.0.0"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rake assets:precompile && rails db:migrate && rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
 
   db:
     image: postgres
     restart: always
-    # set shared memory limit when using docker-compose
     shm_size: 128mb
-    # or set shared memory limit when deploy via swarm stack
-    #volumes:
-    #  - type: tmpfs
-    #    target: /dev/shm
-    #    tmpfs:
-    #      size: 134217728 # 128*2^20 bytes = 128Mb
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "${DATABASE_PORT}:5432"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile.frontend
+    container_name: frontend
+    ports:
+      - "3001:3001"  # Cambiamos el mapeo de puertos
+    volumes:
+      - ".:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:3000/api
+      - PORT=3001    # Especificamos el puerto para React
+    depends_on:
+      - myapp
+    command: yarn start

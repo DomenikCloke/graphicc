@@ -50,8 +50,17 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Modificar configuración de assets
+  config.assets.compile = true
+  config.assets.digest = true
+  config.assets.quiet = false
+
+  # Deshabilitar la compresión en desarrollo
+  config.assets.js_compressor = nil
+  config.assets.css_compressor = nil
+
   # Suppress logger output for asset requests.
-  config.assets.quiet = true
+  # config.assets.quiet = true
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

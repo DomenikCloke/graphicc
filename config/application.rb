@@ -17,5 +17,22 @@ module Gwaphics
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.middleware.use SnakeCaseParameters
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', 
+          headers: :any, 
+          methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+    end
+
+    # Configurar assets
+    config.assets.initialize_on_precompile = true
+    config.assets.enabled = true
+    
+    # Asegurarse que execjs use Node.js
+    config.assets.js_compressor = :terser
   end
 end
+

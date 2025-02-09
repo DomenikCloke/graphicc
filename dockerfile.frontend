@@ -1,0 +1,19 @@
+FROM node:23.7.0
+
+WORKDIR /usr/src/app
+
+# Copiar archivos de configuración
+COPY package.json yarn.lock ./
+COPY webpack.config.js ./
+
+
+
+# Copiar el código fuente usando frontend/ en lugar de src/
+COPY frontend/ ./frontend/
+# Instalar dependencias
+RUN yarn install
+RUN yarn add @babel/preset-env @babel/preset-react --dev
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]

@@ -12,12 +12,18 @@ gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+# gem 'uglifier', '>= 1.3.0'
+gem 'terser'
+gem 'sprockets', '~> 3.7.2'
+gem 'sprockets-rails', require: 'sprockets/railtie'
 gem 'shared-mime-info', '~> 0.2.5'
 gem 'mime-types', '~> 3.6'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 gem 'mimemagic', '~> 0.4.3' # Cambia a una versión más reciente
+gem 'aws-partitions', '~> 1.1048'
+gem 'aws-sdk-core', '~> 3.218', '>= 3.218.1'
+gem 'net-imap', '~> 0.5.6'
 
 gem 'ostruct'
 gem 'mutex_m'
@@ -44,6 +50,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem "jquery-rails"
 gem "aws-sdk-s3"
 gem 'dotenv', '~> 3.1', '>= 3.1.7'
+
+# Agregar estas gemas
+gem 'execjs'
+gem 'mini_racer'
+gem 'rack-cors'
+#gem 'uglifier'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

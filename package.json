@@ -11,7 +11,9 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "framework-utils": "^0.3.4",
+    "@babel/runtime": "^7.9.0"
   },
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
   "version": "1.0.0",
@@ -21,13 +23,15 @@
     "test": "test"
   },
   "engines": {
-    "node": "10.18.1",
-    "npm": "6.13.4"
+    "node": "23.7.0",
+    "npm": "10.9.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --watch --mode=development",
-    "postinstall": "webpack"
+    "start": "webpack serve --mode development",
+    "webpack": "webpack --mode=development --watch",
+    "build": "webpack --mode production",
+    "postinstall": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +40,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@webpack-cli/serve": "^3.0.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
@@ -47,7 +52,9 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "redux-logger": "^3.0.6",
     "style-loader": "^1.2.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack": "^5.88.2",
+    "webpack-cli": "^6.0.0",
+    "webpack-dev-server": "^4.15.1",
+    "@babel/plugin-transform-runtime": "^7.9.0"
   }
 }

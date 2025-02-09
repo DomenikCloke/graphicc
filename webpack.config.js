@@ -3,61 +3,44 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './frontend/entry.jsx',
+  context: path.resolve(__dirname, 'frontend'), // Directorio raíz del código fuente
+  mode: process.env.NODE_ENV || 'development',
+  entry: './entry.jsx', // Archivo de entrada principal
   output: {
-    path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        SCREENSHOT_URL: JSON.stringify(process.env.SCREENSHOT_URL),
-        UNSPLASH_ACCESS_KEY: JSON.stringify(process.env.UNSPLASH_ACCESS_KEY),
-      },
-    }),
-  ],
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules)/,
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          query: {
-            presets: ['@babel/env', '@babel/react'],
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: {
-                mode: 'local',
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-              },
-            },
-          },
-        ],
-        include: /\.module\.css$/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
-        exclude: /\.module\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '*'],
+    extensions: ['.js', '.jsx'],
   },
   devtool: 'source-map',
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, 'frontend'),
+    },
+    historyApiFallback: true,
+    hot: true,
+    port: 3001,
+    host: '0.0.0.0',
+    allowedHosts: 'all',
+  },
 };
