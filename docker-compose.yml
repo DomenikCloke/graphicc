@@ -21,7 +21,7 @@ services:
       - db
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rake assets:precompile && rails db:migrate && rails s -p 3000 -b '0.0.0.0'"
     ports:
-      - "3000:3000"
+      - "${BACKEND_PORT}:3000"
 
   db:
     image: postgres
@@ -40,7 +40,7 @@ services:
       dockerfile: dockerfile.frontend
     container_name: frontend
     ports:
-      - "3001:3001"  # Cambiamos el mapeo de puertos
+      - "${FRONTEND_PORT}:3001"  # Cambiamos el mapeo de puertos
     volumes:
       - ".:/usr/src/app"
       - "/usr/src/app/node_modules"
