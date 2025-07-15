@@ -3,13 +3,17 @@ FROM node:23.7.0
 
 WORKDIR /usr/src/app
 
+# Copy config and dependencies
 COPY frontend/package.json frontend/yarn.lock ./
-COPY frontend/ ./frontend/
 COPY webpack.config.js ./
 
+# Copy source code
+COPY frontend/ ./frontend/
+
+# Install dependencies
 RUN yarn install
 RUN yarn add @babel/preset-env @babel/preset-react --dev
 
-EXPOSE 3001
+EXPOSE 3001  # internal port that matches your React app
 
 CMD ["yarn", "start"]
